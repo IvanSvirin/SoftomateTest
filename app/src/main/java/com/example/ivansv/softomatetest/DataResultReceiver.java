@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.os.ResultReceiver;
 
-/**
- * Created by ivansv on 30.03.2016.
- */
 @SuppressLint("ParcelCreator")
 public class DataResultReceiver extends ResultReceiver {
     public static final String RECEIVER = "receiver";

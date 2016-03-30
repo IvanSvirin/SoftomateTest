@@ -12,15 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-/**
- * Created by ivansv on 30.03.2016.
- */
 public class TextFragment extends Fragment implements DataResultReceiver.Receiver {
     public static final String TEXT = "text";
     private EditText userEditText;
-    private String text;
-    private String language;
-    private DataResultReceiver dataResultReceiver;
 
     @Nullable
     @Override
@@ -41,9 +35,9 @@ public class TextFragment extends Fragment implements DataResultReceiver.Receive
     }
 
     private void request() {
-        dataResultReceiver = new DataResultReceiver(new Handler());
+        DataResultReceiver dataResultReceiver = new DataResultReceiver(new Handler());
         dataResultReceiver.setReceiver(this);
-        text = String.valueOf(userEditText.getText());
+        String text = String.valueOf(userEditText.getText());
         Intent intent = new Intent(getContext(), RequestService.class);
         intent.putExtra(DataResultReceiver.RECEIVER, dataResultReceiver);
         intent.putExtra(TEXT, text);
@@ -53,7 +47,7 @@ public class TextFragment extends Fragment implements DataResultReceiver.Receive
 
     @Override
     public void onReceiveResult(int resultCode, Bundle data) {
-        language = data.getString(RequestService.LANGUAGE);
+        String language = data.getString(RequestService.LANGUAGE);
         if (language != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                     .setTitle("Язык Вашего текста:")

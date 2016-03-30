@@ -1,8 +1,5 @@
 package com.example.ivansv.softomatetest;
 
-/**
- * Created by ivansv on 29.03.2016.
- */
 public class TextLanguage {
     private String text;
     private String language;

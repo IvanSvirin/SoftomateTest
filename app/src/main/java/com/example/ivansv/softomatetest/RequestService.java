@@ -15,16 +15,10 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by ivansv on 30.03.2016.
- */
 public class RequestService extends IntentService {
     public static final String LANGUAGE = "language";
-    private String url =
-            "http://gateway-a.watsonplatform.net/calls/text/TextGetLanguage?apikey=4978e60252ae102dfe1341146bb8cc3ec4bbbd78&text=";
     private String text;
     private HttpURLConnection urlConnection;
-    private BufferedInputStream inputStream;
     private String language;
     private ResultReceiver resultReceiver;
 
@@ -37,6 +31,8 @@ public class RequestService extends IntentService {
         language = null;
         resultReceiver = intent.getParcelableExtra(DataResultReceiver.RECEIVER);
         text = intent.getStringExtra(TextFragment.TEXT);
+        String url =
+                "http://gateway-a.watsonplatform.net/calls/text/TextGetLanguage?apikey=4978e60252ae102dfe1341146bb8cc3ec4bbbd78&text=";
         loadXml(url + text);
     }
 
@@ -44,7 +40,7 @@ public class RequestService extends IntentService {
         try {
             URL url = new URL(urlString);
             urlConnection = (HttpURLConnection) url.openConnection();
-            inputStream = new BufferedInputStream(urlConnection.getInputStream());
+            BufferedInputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(inputStream, null);
@@ -57,9 +53,7 @@ public class RequestService extends IntentService {
                 parser.next();
             }
             inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (XmlPullParserException e) {
+        } catch (IOException | XmlPullParserException e) {
             e.printStackTrace();
         } finally {
             urlConnection.disconnect();

@@ -8,9 +8,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by ivansv on 29.03.2016.
- */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private ArrayList<TextLanguage> textLanguages;
 

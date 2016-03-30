@@ -10,9 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-/**
- * Created by ivansv on 29.03.2016.
- */
 public class ListFragment extends Fragment {
     static RecyclerViewAdapter adapter;
     @Nullable

@@ -29,40 +29,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        if (drawer != null) {
+            drawer.addDrawerListener(toggle);
+        }
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(this);
+        }
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.mainContainer, textFragment)
                 .commit();
         dbHelper = new DBHelper(this);
-        Cursor cursor = dbHelper.getReadableDatabase().query(DBHelper.DATABASE_TABLE, null, null, null, null, null, null);
-        if (cursor != null) {
-            if (cursor.moveToNext()) {
-                int textIndex = cursor.getColumnIndex(DBHelper.KEY_TEXT);
-                int languageIndex = cursor.getColumnIndex(DBHelper.KEY_LANGUAGE);
-                do {
-                    TextLanguage textLanguage = new TextLanguage();
-                    textLanguage.setText(cursor.getString(textIndex));
-                    textLanguage.setLanguage(cursor.getString(languageIndex));
-                    textLanguages.add(textLanguage);
-                } while (cursor.moveToNext());
+        if (textLanguages.size() == 0) {
+            Cursor cursor = dbHelper.getReadableDatabase().query(DBHelper.DATABASE_TABLE, null, null, null, null, null, null);
+            if (cursor != null) {
+                if (cursor.moveToNext()) {
+                    int textIndex = cursor.getColumnIndex(DBHelper.KEY_TEXT);
+                    int languageIndex = cursor.getColumnIndex(DBHelper.KEY_LANGUAGE);
+                    do {
+                        TextLanguage textLanguage = new TextLanguage();
+                        textLanguage.setText(cursor.getString(textIndex));
+                        textLanguage.setLanguage(cursor.getString(languageIndex));
+                        textLanguages.add(textLanguage);
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
             }
-            cursor.close();
+            dbHelper.close();
         }
-        dbHelper.close();
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        if (drawer != null) {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -82,7 +90,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        if (drawer != null) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
         return true;
     }
 }
