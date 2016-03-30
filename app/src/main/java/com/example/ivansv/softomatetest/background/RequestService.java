@@ -40,7 +40,16 @@ public class RequestService extends IntentService {
         text = intent.getStringExtra(TextFragment.TEXT);
         String url =
                 "http://gateway-a.watsonplatform.net/calls/text/TextGetLanguage?apikey=4978e60252ae102dfe1341146bb8cc3ec4bbbd78&text=";
-        loadXml(url + text);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) != ' ') {
+                stringBuilder.append(text.charAt(i));
+            } else {
+                stringBuilder.append("%20");
+            }
+        }
+        String formattedText = String.valueOf(stringBuilder);
+        loadXml(url + formattedText);
     }
 
     private void loadXml(String urlString) {
@@ -60,6 +69,7 @@ public class RequestService extends IntentService {
                 parser.next();
             }
             inputStream.close();
+            writeResult();
         } catch (IOException | XmlPullParserException e) {
             e.printStackTrace();
         } finally {
@@ -68,7 +78,7 @@ public class RequestService extends IntentService {
         }
     }
 
-    private void sendResult(String language) {
+    private void writeResult() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBHelper.KEY_TEXT, text);
         contentValues.put(DBHelper.KEY_LANGUAGE, language);
@@ -78,8 +88,12 @@ public class RequestService extends IntentService {
         textLanguage.setText(text);
         textLanguage.setLanguage(language);
         MainActivity.textLanguages.add(textLanguage);
-        ListFragment.adapter.notifyDataSetChanged();
+        if (ListFragment.adapter != null) {
+            ListFragment.adapter.notifyDataSetChanged();
+        }
+    }
 
+    private void sendResult(String language) {
         Bundle bundle = new Bundle();
         bundle.putString(LANGUAGE, language);
         resultReceiver.send(DataResultReceiver.RESULT, bundle);
