@@ -1,4 +1,4 @@
-package com.example.ivansv.softomatetest;
+package com.example.ivansv.softomatetest.view;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,13 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.example.ivansv.softomatetest.controller.DBHelper;
+import com.example.ivansv.softomatetest.R;
+import com.example.ivansv.softomatetest.model.TextLanguage;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    static ArrayList<TextLanguage> textLanguages = new ArrayList<>();
+    public static ArrayList<TextLanguage> textLanguages = new ArrayList<>();
     private Fragment listFragment = new ListFragment();
     private Fragment textFragment = new TextFragment();
-    static DBHelper dbHelper;
+    public static DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

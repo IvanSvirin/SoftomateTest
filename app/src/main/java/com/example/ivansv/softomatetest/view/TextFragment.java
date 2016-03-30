@@ -1,4 +1,4 @@
-package com.example.ivansv.softomatetest;
+package com.example.ivansv.softomatetest.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import com.example.ivansv.softomatetest.controller.DataResultReceiver;
+import com.example.ivansv.softomatetest.R;
+import com.example.ivansv.softomatetest.background.RequestService;
 
 public class TextFragment extends Fragment implements DataResultReceiver.Receiver {
     public static final String TEXT = "text";

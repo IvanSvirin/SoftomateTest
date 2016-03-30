@@ -1,4 +1,4 @@
-package com.example.ivansv.softomatetest;
+package com.example.ivansv.softomatetest.controller;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

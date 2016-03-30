@@ -1,4 +1,4 @@
-package com.example.ivansv.softomatetest;
+package com.example.ivansv.softomatetest.model;
 
 public class TextLanguage {
     private String text;

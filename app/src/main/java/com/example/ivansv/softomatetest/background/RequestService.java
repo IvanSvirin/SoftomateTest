@@ -1,4 +1,4 @@
-package com.example.ivansv.softomatetest;
+package com.example.ivansv.softomatetest.background;
 
 import android.app.IntentService;
 import android.content.ContentValues;
@@ -6,6 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.os.ResultReceiver;
 import android.util.Xml;
+
+import com.example.ivansv.softomatetest.controller.DBHelper;
+import com.example.ivansv.softomatetest.controller.DataResultReceiver;
+import com.example.ivansv.softomatetest.model.TextLanguage;
+import com.example.ivansv.softomatetest.view.ListFragment;
+import com.example.ivansv.softomatetest.view.MainActivity;
+import com.example.ivansv.softomatetest.view.TextFragment;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
