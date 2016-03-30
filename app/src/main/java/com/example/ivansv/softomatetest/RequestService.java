@@ -69,9 +69,15 @@ public class RequestService extends IntentService {
 
     private void sendResult(String language) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DataContract.Data.COLUMN_NAME_TEXT, text);
-        contentValues.put(DataContract.Data.COLUMN_NAME_LANGUAGE, language);
-        new DataProvider().insert(DataContract.Data.CONTENT_URI, contentValues);
+        contentValues.put(DBHelper.KEY_TEXT, text);
+        contentValues.put(DBHelper.KEY_LANGUAGE, language);
+        MainActivity.dbHelper.getWritableDatabase().insert(DBHelper.DATABASE_TABLE, null, contentValues);
+        MainActivity.dbHelper.close();
+        TextLanguage textLanguage = new TextLanguage();
+        textLanguage.setText(text);
+        textLanguage.setLanguage(language);
+        MainActivity.textLanguages.add(textLanguage);
+        ListFragment.adapter.notifyDataSetChanged();
 
         Bundle bundle = new Bundle();
         bundle.putString(LANGUAGE, language);

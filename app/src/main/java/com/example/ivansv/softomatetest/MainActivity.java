@@ -1,5 +1,6 @@
 package com.example.ivansv.softomatetest;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-//    static ArrayList<TextLanguage> textLanguages = new ArrayList<>();
+    static ArrayList<TextLanguage> textLanguages = new ArrayList<>();
     private Fragment listFragment = new ListFragment();
     private Fragment textFragment = new TextFragment();
+    static DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.mainContainer, textFragment)
                 .commit();
-
+        dbHelper = new DBHelper(this);
+        Cursor cursor = dbHelper.getReadableDatabase().query(DBHelper.DATABASE_TABLE, null, null, null, null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToNext()) {
+                int textIndex = cursor.getColumnIndex(DBHelper.KEY_TEXT);
+                int languageIndex = cursor.getColumnIndex(DBHelper.KEY_LANGUAGE);
+                do {
+                    TextLanguage textLanguage = new TextLanguage();
+                    textLanguage.setText(cursor.getString(textIndex));
+                    textLanguage.setLanguage(cursor.getString(languageIndex));
+                    textLanguages.add(textLanguage);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        dbHelper.close();
     }
 
     @Override

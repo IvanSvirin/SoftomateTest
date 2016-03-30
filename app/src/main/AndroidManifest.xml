@@ -22,11 +22,6 @@
             </intent-filter>
         </activity>
 
-        <provider
-            android:authorities="com.example.ivansv.softomatetest"
-            android:name=".DataProvider"
-            tools:ignore="ExportedContentProvider" />
-
         <service android:name=".RequestService"/>
     </application>
 
